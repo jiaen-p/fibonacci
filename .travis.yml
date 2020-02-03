@@ -1,0 +1,22 @@
+sudo: required
+services: 
+    -docker
+
+before_install:
+    - docker build -t jiaenpan/react-test-f ./client/Dockerfile.dev ./client
+
+scripts:
+    - docker run jiaenpan/react-test npm test -- --coverage -e CI=true
+
+after_success:
+    - docker build -t jiaenpan/multi-client ./client
+    - docker build -t jiaenpan/multi-nginx ./nginx
+    - docker build -t jiaenpan/multi-server ./server
+    - docker build -t jiaenpan/multi-worker ./worker
+    # log in to docker CLI
+    - echo "$DOCKER_PASS" | docker login -u "$DOCKER_ID" --password-stdin
+    # push image to docker hub
+    - docker push jiaenpan/multi-client
+    - docker push jiaenpan/multi-nginx
+    - docker push jiaenpan/multi-server
+    - docker push jiaenpan/multi-worker
