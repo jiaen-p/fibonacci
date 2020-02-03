@@ -20,3 +20,16 @@ after_success:
     - docker push jiaenpan/multi-nginx
     - docker push jiaenpan/multi-server
     - docker push jiaenpan/multi-worker
+
+deploy:
+    provider: elasticbeanstalk
+    region: eu-central-1
+    app: multi-docker
+    env: MultiDocker-env
+    bucket_name: elasticbeanstalk-eu-central-1-180067870877
+    bucket_path: docker-multi
+    on: 
+        branch: master
+    access_key_id: $AWS_ID
+    secret_access_key:
+        secret: $AWS_SECRET

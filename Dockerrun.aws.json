@@ -1,0 +1,35 @@
+{
+    "AWSEBDockerrunVersion": 2,
+    "containerDefinitions": [
+        {
+            "name": "client",
+            "image": "jiaenpan/multi-client",
+            "hostname": "client",
+            "essencial": false
+        },
+        {
+            "name": "server",
+            "image": "jiaenpan/multi-server",
+            "hostname": "api",
+            "essencial": false
+        },
+        {
+            "name": "worker",
+            "image": "jiaenpan/multi-worker",
+            "hostname": "worker",
+            "essencial":false
+        },
+        {
+            "name": "nginx",
+            "image": "jiaenpan/multi-nginx",
+            "essencial": true,
+            "portMappings": [
+                {
+                    "hostPort": 80,
+                    "containerPort": 80
+                }
+            ],
+            "links": ["client","server"]
+        }
+    ]
+}
