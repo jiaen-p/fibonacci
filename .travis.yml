@@ -3,10 +3,10 @@ services:
     -docker
 
 before_install:
-    - docker build -t jiaenpan/react-test-f ./client/Dockerfile.dev ./client
+    - docker build -t jiaenpan/react-test -f ./client/Dockerfile.dev ./client
 
 scripts:
-    - docker run jiaenpan/react-test npm test -- --coverage -e CI=true
+    - docker run -e CI=true jiaenpan/react-test npm test -- --coverage 
 
 after_success:
     - docker build -t jiaenpan/multi-client ./client
